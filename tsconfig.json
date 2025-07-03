@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    /* Project Options */
+    "target": "ES2022",                /* Specify ECMAScript target version: "ES3", "ES5", "ES2015", "ES2016", "ES2017", "ES2018", "ES2019", "ES2020", "ES2021", "ES2022", "ESNext". */
+    "module": "ESNext",                /* Specify module code generation: "None", "CommonJS", "AMD", "System", "UMD", "ES6", "ES2015", "ES2020", "ES2022", "ESNext", "Node16", "NodeNext". */
+    "lib": ["ES2022", "DOM", "DOM.Iterable"], /* Specify a library of global API's available in the JavaScript runtime. */
+    "outDir": "./dist",                /* Specify an output directory for all emitted files. */
+    "rootDir": "./src",                /* Specify the root directory of input files. */
+    "allowJs": true,                   /* Allow JavaScript files to be compiled. */
+    "checkJs": false,                  /* Enable error reporting in type-checked JavaScript files. (Optional, can be true for JS projects). */
+    "esModuleInterop": true,           /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */
+    "forceConsistentCasingInFileNames": true, /* Ensure that casing is correct in imports. */
+    "skipLibCheck": true,              /* Skip type checking all .d.ts files. */
+    "sourceMap": true,                 /* Create source map files for emitted JavaScript files. (Good for debugging) */
+
+    /* Strictness */
+    "strict": true,                    /* Enable all strict type-checking options. */
+    "noImplicitAny": true,             /* Enable error reporting for expressions and declarations with an implied 'any' type.. */
+    "strictNullChecks": true,          /* When type checking, take into account 'null' and 'undefined'. */
+    "noUnusedLocals": true,            /* Enable error reporting when a local variables aren't read. */
+    "noUnusedParameters": true,        /* Raise an error when a function parameter isn't read. */
+
+    /* Module Resolution */
+    "moduleResolution": "Node",        /* Specify how modules are resolved. */
+    "resolveJsonModule": true,         /* Enable importing .json files. */
+  },
+  "include": [
+    "src/**/*",                        /* Include all files in the 'src' directory and its subdirectories. */
+    "types/**/*.d.ts",                 /* Include custom declaration files if you create them. */
+    // Add specific entry points if you want more fine-grained control:
+    // "background.ts",
+    // "content.ts",
+    // "popup.ts"
+  ],
+  "exclude": [
+    "node_modules",                    /* Exclude all files in the 'node_modules' directory. */
+    "dist"                             /* Exclude the output directory. */
+  ]
+}
