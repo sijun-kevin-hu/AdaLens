@@ -30,6 +30,14 @@ function isAccessible(img) {
     if (display == 'none' || visibility == 'hidden') {
         return true;
     }
+    const opacity = parseFloat(window.getComputedStyle(img).opacity);
+    if (opacity == 0 || opacity < 0.05) {
+        return true;
+    }
+    // Img is not loaded
+    if (!img.complete || img.naturalHeight === 0 || img.naturalWidth === 0) {
+        return true;
+    }
     return false;
 }
 ;
