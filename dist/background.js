@@ -1,18 +1,1 @@
-"use strict";
-// Page request API Call
-chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
-    if (message.action == 'analyzeImage') {
-        console.log('Analyzing Image...');
-        sendResponse({
-            description: 'Got it!'
-        });
-    }
-    else {
-        console.log('Message isn\'t right:', message);
-        sendResponse({
-            description: 'Don\'t dont it'
-        });
-    }
-    return true;
-});
-//# sourceMappingURL=background.js.map
+chrome.runtime.onMessage.addListener((e,o,r)=>{if(e.action=="analyzeImage"){const t=e.imageUrl;console.log("Analyzing Image URL:",e.imageUrl),a(t).then(n=>{r({success:!0,description:n})}).catch(n=>{r({success:!1,error:n.message})})}return!0});async function a(e){const o="http://127.0.0.1:5000/analyze-image";try{const r=await fetch(o,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({imageUrl:e})});if(!r.ok)throw new Error("HTTP error!");const t=await r.json();if(!t.description)throw new Error("API did not return description.");return t}catch(r){throw console.error("API Calling Error: ",r),r}}

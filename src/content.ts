@@ -1,4 +1,3 @@
-
 const img_list = document.querySelectorAll('img');
 let valid_imgs: HTMLImageElement[];
 
@@ -8,19 +7,21 @@ img_list.forEach(async img => {
     if (!isAccessible(img as HTMLImageElement)) {
         console.log('Image not accessible: ' + img);
         const img_url = img.getAttribute('src');
-
         try {
             const res = await chrome.runtime.sendMessage({
                 action: "analyzeImage",
                 imageUrl: img_url
             });
-            console.log("Received description:", res.description);
+            if (res && res.success) {
+                console.log("Received description:", res.description);
+                img.alt = res.description;
+                img.setAttribute('aria-label', res.description);
+            }
         } catch (error) {
             console.error("Error sending message or getting response:", error);
         }
     }
 });
-
 
 function isAccessible(img: HTMLImageElement) {
     if (img.hasAttribute('alt') && (img.getAttribute('alt') !== "")) {

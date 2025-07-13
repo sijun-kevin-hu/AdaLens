@@ -2,17 +2,18 @@
   "name": "ada-lens",
   "version": "1.0.0",
   "description": "A chrome extension that will find images not compliant with accessibility and add accessibility features.",
-  "dependencies": {
-    "chrome-types": "^0.1.358"
-  },
+  "type": "module",
   "devDependencies": {
-    "@types/chrome": "^0.0.329",
-    "concurrently": "^9.2.0",
-    "nodemon": "^3.1.10",
-    "typescript": "^5.8.3"
+    "@types/chrome": "^0.1.0",
+    "@types/node": "^24.0.13",
+    "typescript": "^5.8.3",
+    "vite": "^7.0.4"
   },
   "scripts": {
-    "build": "tsc",
-    "dev": "concurrently \"tsc --watch\" \"nodemon --watch dist -e js,json --delay 0.5 --exec \\\"echo -e '✨ Files updated in \\'dist\\' folder! Please RELOAD your extension in Chrome (chrome://extensions/) ✨'\\\"\""
+    "build": "vite build",
+    "dev": "vite build --watch"
+  },
+  "dependencies": {
+    "chrome-types": "^0.1.361"
   }
 }
