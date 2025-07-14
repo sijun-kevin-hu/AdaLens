@@ -22,12 +22,19 @@ interface ImageDescription {
 }
 
 async function fetchImageDescription(imageUrl: string): Promise<ImageDescription> {
-    const url = 'http://127.0.0.1:5000/analyze-image';
+    const { geminiApiKey } = await chrome.storage.sync.get('geminiApiKey');
+    if (!geminiApiKey) {
+        throw new Error("API Key not Found. Please set in options page.");
+    }
+
+    const url = 'https://adalens-backend.onrender.com/analyze-image';
     try {
         const res = await fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                // Sends API Key
+                'x-api-key': geminiApiKey
             },
             body: JSON.stringify({ imageUrl: imageUrl}),
         });

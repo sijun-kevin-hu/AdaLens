@@ -3,80 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AdaLens Test Page - Image Accessibility Scenarios (Revised 3)</title>
+    <title>Image Accessibility Test Page</title>
     <style>
-        body { font-family: sans-serif; margin: 20px; }
-        img { border: 2px dashed #ccc; margin: 10px; max-width: 300px; height: auto; display: block; }
-        .hidden-display { display: none; }
-        .hidden-visibility { visibility: hidden; }
-        .hidden-opacity { opacity: 0; }
-        .tiny-img { width: 1px; height: 1px; } /* For testing tiny image filtering */
-        .large-img { width: 500px; height: auto; }
-        p { margin-bottom: 20px; }
-        .test-section { border: 1px solid #eee; padding: 15px; margin-bottom: 25px; background-color: #f9f9f9; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 2rem;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        main {
+            max-width: 900px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        div {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            padding: 1.5rem;
+            text-align: center;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #111;
+        }
+        h2 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #555;
+        }
+        p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 6px;
+            margin-top: 1rem;
+        }
     </style>
 </head>
 <body>
 
-    <h1>AdaLens Test Scenarios</h1>
-    <p>Open your browser's Developer Tools (F12) and go to the Console tab to see AdaLens logs. Refresh the page after reloading your extension.</p>
+    <h1>Image Accessibility Test Page</h1>
 
-    <div class="test-section">
-        <h2>1. Images that NEED AI Description</h2>
-        <p>These images lack meaningful alt text or explicit decorative markers, and are visible. AdaLens should attempt to add alt text to these.</p>
+    <main>
+        <div>
+            <h2>1. Good Practice: Pre-filled `alt` tag</h2>
+            <p>Your extension should ignore this image and not change its existing alt text.</p>
+            <img src="https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg" 
+                 alt="A close-up of a fluffy white kitten with blue eyes looking curiously at the camera.">
+        </div>
 
-        <h3>No Alt Attribute (Common Case)</h3>
-        <img src="https://images.pexels.com/photos/20340787/pexels-photo-20340787/free-photo-of-atlanta.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1">
-        <p><em>Expected: AdaLens processes this (adds alt text).</em></p>
+        <div>
+            <h2>2. Primary Target: Empty `alt` tag</h2>
+            <p>Your extension should analyze this image and fill the empty alt attribute.</p>
+            <img src="https://images.pexels.com/photos/374710/pexels-photo-374710.jpeg" 
+                 alt="">
+        </div>
 
-        <h3>Empty Alt Attribute (Often a mistake if image is meaningful, or intentionally decorative)</h3>
-        <img src="https://cdn.pixabay.com/photo/2016/11/29/05/45/ai-1867616_1280.jpg" alt="">
-        <p><em>Expected: AdaLens processes this if your `isAccessible` is strict about empty alt (it should). Otherwise, it skips it as decorative.</em></p>
+        <div>
+            <h2>3. Missing `alt` attribute</h2>
+            <p>Your extension should also analyze this image and add an alt attribute.</p>
+            <img src="https://images.pexels.com/photos/3225517/pexels-photo-3225517.jpeg">
+        </div>
+    </main>
 
-        <h3>Meaningful Image with Generic Alt (Could be improved by AI - Advanced)</h3>
-        <img src="https://cdn.pixabay.com/photo/2018/05/18/15/34/artificial-intelligence-3411425_1280.jpg" alt="Image">
-        <p><em>Expected: AdaLens skips this due to existing alt. (Unless you modify `isAccessible` to specifically target generic alt texts, which is more advanced).</em></p>
-    </div>
-
-    <div class="test-section">
-        <h2>2. Images that Should be SKIPPED by AdaLens</h2>
-        <p>These images are either already accessible, explicitly decorative, or visually hidden.</p>
-
-        <h3>Already Has Meaningful Alt Text</h3>
-        <img src="https://images.pexels.com/photos/1779487/pexels-photo-1779487.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Person typing on a laptop, close up on hands and keyboard.">
-        <p><em>Expected: AdaLens skips this (already good alt).</em></p>
-
-        <h3>Explicitly Decorative (aria-hidden)</h3>
-        <img src="https://via.placeholder.com/150/0000FF/FFFFFF?text=Decorative+Aria" aria-hidden="true">
-        <p><em>Expected: AdaLens skips this (marked as decorative).</em></p>
-
-        <h3>Explicitly Decorative (role="presentation")</h3>
-        <img src="https://via.placeholder.com/150/FF0000/FFFFFF?text=Decorative+Role" role="presentation">
-        <p><em>Expected: AdaLens skips this (marked as decorative).</em></p>
-
-        <h3>Hidden by CSS (display: none)</h3>
-        <img src="https://images.pexels.com/photos/1036808/pexels-photo-1036808.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="hidden-display">
-        <p><em>Expected: AdaLens skips this (visually hidden by display: none).</em></p>
-
-        <h3>Hidden by CSS (visibility: hidden)</h3>
-        <img src="https://images.pexels.com/photos/1597561/pexels-photo-1597561.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="hidden-visibility">
-        <p><em>Expected: AdaLens skips this (visually hidden by visibility: hidden).</em></p>
-
-        <h3>Hidden by CSS (opacity: 0)</h3>
-        <img src="https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="hidden-opacity">
-        <p><em>Expected: AdaLens skips this (visually hidden by opacity: 0).</em></p>
-
-        <h3>Tiny Image (Often Decorative/Tracking - if you add this check)</h3>
-        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="tiny-img">
-        <p><em>Expected: AdaLens skips this (very small, likely decorative). (Requires adding `width`/`height`/`naturalWidth`/`naturalHeight` checks in `isAccessible`).</em></p>
-
-        <h3>Broken Image (Invalid Source - if you add this check)</h3>
-        <img src="https://example.com/non-existent-image-that-will-definitely-break.jpg">
-        <p><em>Expected: AdaLens skips this (failed to load, `naturalWidth` will be 0). (Requires `img.complete` and `naturalWidth`/`naturalHeight` checks in `isAccessible`).</em></p>
-    </div>
-
-    <script>
-        // Placeholder for your content.js to be injected by the extension.
-    </script>
 </body>
 </html>
