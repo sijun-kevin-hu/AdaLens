@@ -3,6 +3,7 @@ import { resolve } from "path";
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 export default defineConfig({
+    base: './',
     plugins: [
         viteStaticCopy({
             targets: [
@@ -23,8 +24,9 @@ export default defineConfig({
             input: {
                 background: resolve(__dirname, 'src/background.ts'),
                 content: resolve(__dirname, 'src/content.ts'),
-                options: resolve(__dirname, 'options.html'),
+                
                 popup: resolve(__dirname, 'popup.html'),
+                options: resolve(__dirname, 'options.html')
             },
             output: {
                 entryFileNames: '[name].js',
