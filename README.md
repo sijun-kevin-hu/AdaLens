@@ -4,8 +4,6 @@ This repository contains the frontend code for the **AdaLens Chrome Extension**,
 
 This extension is the user-facing part of the project and communicates with a separate, secure [backend server](https://github.com/sijun-kevin-hu/AdaLens_Backend) to process images.
 
-![AdaLens Options Page](https://i.imgur.com/j8nQ5yI.png)
-
 ## ✨ Key Features
 
 - **Automatic Image Scanning:** Intelligently finds images that are inaccessible to screen readers.
