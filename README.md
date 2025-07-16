@@ -28,7 +28,7 @@ To run this extension locally for development or contributions:
 1. **Clone the repository:**
 
     ```bash
-    git clone [https://github.com/sijun-kevin-hu/AdaLens.git](https://github.com/your-username/adalens-frontend.git)
+    git clone https://github.com/sijun-kevin-hu/AdaLens.git
     cd AdaLens
     ```
 
